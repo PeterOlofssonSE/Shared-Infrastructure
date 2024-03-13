@@ -30,3 +30,18 @@ param tags = {
   'WS3'
 ])
 param aspSKUName = 'WS2'
+
+// *** PARAMETERS: Service Bus ***
+@description('The Service Bus SKU Name.')
+@allowed([
+  'Standard'
+  'Premium'
+])
+param sBusSKUName = 'Standard'
+
+@description('Select whether to use SAS keys for authen/author or not.')
+@allowed([
+  true
+  false
+])
+param sBusDisableLocalAuthentication = true
