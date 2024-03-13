@@ -60,4 +60,16 @@ module keyVault 'Key Vault/keyvault.bicep' = {
     firstCharEnvironment: firstCharEnvironment
   }
 }
+
+// ** Logic App Standard
+module logicAppStandard 'Logic App Standard/logicAppStandard.bicep' = {
+  name: 'logicAppStandardDeploy'
+  params: {
+    applicationName: applicationName
+    firstCharEnvironment: firstCharEnvironment
+    location: location
+    tags: tags
+    aspID: appServicePlan.outputs.aspID
+  }
+}
   
