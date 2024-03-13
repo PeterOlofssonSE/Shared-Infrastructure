@@ -5,6 +5,8 @@ param applicationName string
 param location string = resourceGroup().location
 param tags object
 param aspSKUName string
+param sBusSKUName string
+param sBusDisableLocalAuthentication bool 
 
 // *** VARIABLES ***
 // ** Global **
@@ -27,12 +29,25 @@ module storageAccount 'Storage Account/storageaccount.bicep' = {
 
 // ** App Service Plan **
 module appServicePlan 'App Service Plan/appserviceplan.bicep' = {
-  name: 'appServicePlanDeployment'
+  name: 'appServicePlanDeploy'
   params: {
     firstCharEnvironment: firstCharEnvironment
     location: location
     tags: tags
     aspSKUName: aspSKUName
+  }
+}
+
+// ** Service Bus **
+module serviceBus 'Service Bus/servicebus.bicep' = {
+  name: 'serviceBusDeploy'
+  params: {
+    applicationName: applicationName
+    firstCharEnvironment: firstCharEnvironment
+    location: location
+    tags: tags
+    sBusSKUName: sBusSKUName
+    sBusDisableLocalAuthentication: sBusDisableLocalAuthentication
   }
 }
   
