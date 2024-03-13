@@ -1,10 +1,8 @@
-targetScope = 'subscription'
-
 // *** PARAMETERS ***
 @description('These parameters are passed from the parameter file.')
 param environment string
 param applicationName string
-param location string
+param location string = resourceGroup().location
 param tags object
 param aspSKUName string
 
@@ -14,21 +12,10 @@ param aspSKUName string
 // This value will be used in the name of each resource.
 var firstCharEnvironment = toLower(substring(environment, 0, 1))
 
-// ** Resource Group **
-var resourceGroupName = toLower('${applicationName}-rg-${firstCharEnvironment}')
-
 // *** RESOURCES ***
-// ** Resource Group **
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2023-07-01' = {
-  name: resourceGroupName
-  location: location
-  tags: tags
-}
-
 // ** Storage Account **
 module storageAccount 'Storage Account/storageaccount.bicep' = {
   name: 'storageAccountDeploy'
-  scope: az.resourceGroup(resourceGroup.name)
   params: {
     applicationName: applicationName
     firstCharEnvironment: firstCharEnvironment
@@ -41,7 +28,6 @@ module storageAccount 'Storage Account/storageaccount.bicep' = {
 // ** App Service Plan **
 module appServicePlan 'App Service Plan/appserviceplan.bicep' = {
   name: 'appServicePlanDeployment'
-  scope: az.resourceGroup(resourceGroup.name)
   params: {
     firstCharEnvironment: firstCharEnvironment
     location: location
