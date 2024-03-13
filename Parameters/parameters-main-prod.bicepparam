@@ -1,8 +1,8 @@
-using '../main.bicep'
+using '../Infrastructure/main.bicep'
 
 // *** PARAMETERS: Global ***
 @description('The selected environment.')
-param environment = 'Dev'
+param environment = 'Prod'
 
 @description('The name of the application or workflow.')
 // This value will be used to construct the name of each resource.
@@ -26,6 +26,7 @@ param tags = {
 // *** PARAMETERS: App Service Plan ***
 @description('The App Service Plan SKU.')
 @allowed([
-  'WS1'
+  'WS2'
+  'WS3'
 ])
-param aspSKUName = 'WS1'
+param aspSKUName = 'WS2'

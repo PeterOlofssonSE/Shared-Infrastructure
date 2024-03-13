@@ -1,8 +1,8 @@
-using '../main.bicep'
+using '../Infrastructure/main.bicep'
 
 // *** PARAMETERS: Global ***
 @description('The selected environment.')
-param environment = 'Prod'
+param environment = 'Test'
 
 @description('The name of the application or workflow.')
 // This value will be used to construct the name of each resource.
