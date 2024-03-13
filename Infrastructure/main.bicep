@@ -50,4 +50,14 @@ module serviceBus 'Service Bus/servicebus.bicep' = {
     sBusDisableLocalAuthentication: sBusDisableLocalAuthentication
   }
 }
+
+module keyVault 'Key Vault/keyvault.bicep' = {
+  name: 'keyVaultDeploy'
+  params: {
+    location: location
+    tags: tags
+    applicationName: applicationName
+    firstCharEnvironment: firstCharEnvironment
+  }
+}
   
