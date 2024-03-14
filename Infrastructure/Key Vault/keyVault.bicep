@@ -5,6 +5,7 @@ param applicationName string
 param firstCharEnvironment string
 param location string
 param tags object
+param userID string
 
 // *** VARIABLES ***
 // Create Key Vault name:
@@ -32,6 +33,17 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
     tenantId: subscription().tenantId
     enabledForTemplateDeployment: true
     enableRbacAuthorization: true
+    enableSoftDelete: false
   }
   tags: tags
 }
+
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(keyVault.id, userID)
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '00482a5a-887f-4fb3-b363-3b7fe8e74483')
+    principalId: userID
+  }
+}
+
+output keyVaultName string = keyVaultName
