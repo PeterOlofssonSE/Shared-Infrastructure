@@ -5,6 +5,7 @@ param applicationName string
 param firstCharEnvironment string
 param location string
 param tags object
+param keyVaultName string
 
 // *** VARIABLES ***
 // Create Storage Account name:
@@ -22,7 +23,13 @@ and using the numeric value in stgActUniquePartLength as the cutoff point.*/
 
 // !!! this should probably be made a parameter so we can enfore rules for minLength and maxLength.
 var storageAccountName = toLower('stgshared${storageAccountNameUniquePart}${firstCharEnvironment}')
-//var fileShareName = toLower('')
+
+// Define resource references for accessing storage account keys
+var storageAccountPrimaryAccessKey = storageAccount.listKeys().keys[0]
+var storageAccountSecondaryAccessKey = storageAccount.listKeys().keys[1]
+
+// Build the connection string using resource references
+var storageAccountConnStr = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccountPrimaryAccessKey.value};EndpointSuffix=core.windows.net'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: storageAccountName
@@ -44,3 +51,12 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
     }
   }
 }
+
+resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
+  name: '${keyVaultName}/storageAccountPrimaryConnectionString'
+  properties: {
+    value: storageAccountConnStr
+  }
+}
+
+
