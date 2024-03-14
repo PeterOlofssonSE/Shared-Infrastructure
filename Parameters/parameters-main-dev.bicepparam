@@ -43,3 +43,7 @@ param sBusSKUName = 'Basic'
   false
 ])
 param sBusDisableLocalAuthentication = true
+
+// *** PARAMETERS: Key Vault ***
+@description('The ID of the user executing the deploy is used to set an RBAC role for the user on the Key Vault.')
+param userID = '756732c6-0eb2-43fb-a851-b942916cfa64'
