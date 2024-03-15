@@ -4,6 +4,7 @@ param environment string
 param applicationName string
 param location string = resourceGroup().location
 param tags object
+param userID string
 param aspSKUName string
 param sBusSKUName string
 param sBusDisableLocalAuthentication bool 
@@ -58,6 +59,7 @@ module keyVault 'Key Vault/keyvault.bicep' = {
     tags: tags
     applicationName: applicationName
     firstCharEnvironment: firstCharEnvironment
+    userID: userID
   }
 }
 
