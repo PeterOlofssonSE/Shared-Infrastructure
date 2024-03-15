@@ -6,6 +6,9 @@ param tags object
 param firstCharEnvironment string
 param applicationName string
 param aspID string
+param storageAccountName string
+param storageAccountId string
+param fileShareName string
 
 // *** VARIABLES ***
 var logicAppName = toLower('${applicationName}-la-${firstCharEnvironment}')
