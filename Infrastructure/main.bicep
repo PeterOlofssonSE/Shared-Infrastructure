@@ -72,6 +72,12 @@ module logicAppStandard 'Logic App Standard/logicAppStandard.bicep' = {
     location: location
     tags: tags
     aspID: appServicePlan.outputs.aspID
+    storageAccountName: storageAccount.outputs.storageAccountName
+    storageAccountId: storageAccount.outputs.storageAccountID
+    fileShareName: storageAccount.outputs.fileShareName
   }
+  dependsOn: [
+    storageAccount
+  ]
 }
   
