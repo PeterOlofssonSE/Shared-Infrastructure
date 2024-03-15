@@ -1,5 +1,4 @@
 @description('This is the Bicep module for the Logic App Standard service.')
-
 // *** PARAMETERS ***
 param location string
 param tags object
@@ -12,6 +11,11 @@ param fileShareName string
 
 // *** VARIABLES ***
 var logicAppName = toLower('${applicationName}-la-${firstCharEnvironment}')
+
+//var storageAccountId = resourceId('Microsoft.Storage/storageAccounts', storageAccountName)
+
+
+var storageAccountPrimaryAccessKey = 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${listKeys(storageAccountId, '2023-01-01').keys[0].value};EndpointSuffix=core.windows.net'
 
 resource logicAppStandard 'Microsoft.Web/sites@2023-01-01' = {
   name: logicAppName
