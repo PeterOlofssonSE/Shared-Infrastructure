@@ -20,6 +20,46 @@ resource logicAppStandard 'Microsoft.Web/sites@2023-01-01' = {
   properties: {
     serverFarmId: aspID
     httpsOnly: true
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'node'
+        }
+        {
+          name: 'WEBSITE_NODE_DEFAULT_VERSION'
+          value: '~18'
+        }
+        {
+          name: 'AzureWebJobsStorage'
+          value: storageAccountPrimaryAccessKey
+        }
+        {
+          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
+          value: storageAccountPrimaryAccessKey
+        }
+        {
+          name: 'WEBSITE_CONTENTSHARE'
+          value: fileShareName
+        }
+        {
+          name: 'AzureFunctionsJobHost__extensionBundle__id'
+          value: 'Microsoft.Azure.Functions.ExtensionBundle.Workflows'
+        }
+        {
+          name: 'AzureFunctionsJobHost__extensionBundle__version'
+          value: '[1.*, 2.0.0)'
+        }
+        {
+          name: 'APP_KIND'
+          value: 'workflowApp'
+        }
+      ]
+    }
   }
   tags: tags
 }
