@@ -31,6 +31,8 @@ var storageAccountSecondaryAccessKey = storageAccount.listKeys().keys[1]
 // Build the connection string using resource references
 var storageAccountConnStr = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccountPrimaryAccessKey.value};EndpointSuffix=core.windows.net'
 
+var fileShareName = toLower('${applicationName}-la-${firstCharEnvironment}')
+
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: storageAccountName
   location: location
@@ -44,7 +46,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
     name: 'default'
   
     resource fileShare 'shares' = {
-      name: toLower('${applicationName}-la-${firstCharEnvironment}')
+      name: fileShareName
       properties: {
         accessTier: 'Hot'
       }
@@ -52,11 +54,16 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   }
 }
 
+// Store the primary access key in the Key Vault
 resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
   name: '${keyVaultName}/storageAccountPrimaryConnectionString'
   properties: {
     value: storageAccountConnStr
   }
 }
+
+output storageAccountName string = storageAccount.name
+output storageAccountID string = storageAccount.id
+output fileShareName string = fileShareName
 
 
