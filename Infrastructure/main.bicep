@@ -24,8 +24,11 @@ module storageAccount 'Storage Account/storageaccount.bicep' = {
     firstCharEnvironment: firstCharEnvironment
     location: location
     tags: tags
-    
+    keyVaultName: keyVault.outputs.keyVaultName
   }
+  dependsOn: [
+    keyVault
+  ]
 }
 
 // ** App Service Plan **
