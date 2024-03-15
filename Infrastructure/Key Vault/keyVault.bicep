@@ -41,9 +41,11 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(keyVault.id, userID)
   properties: {
+    // Remember to explicitly remove the role assignment, when deleting the resources.
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '00482a5a-887f-4fb3-b363-3b7fe8e74483')
     principalId: userID
   }
 }
 
-output keyVaultName string = keyVaultName
+output keyVaultName string = keyVault.name
+output keyVaultID string = keyVault.id
